@@ -43,7 +43,7 @@
     {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/addTherm',
+            url: '/com/admin/addTherm',
             data: getInsertedTherm(),
             contentType: 'application/json',
             success: function (result)

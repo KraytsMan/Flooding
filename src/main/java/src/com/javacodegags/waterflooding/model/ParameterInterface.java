@@ -18,5 +18,6 @@ public interface ParameterInterface {
     public List<Parameters> getListById(int parameterId);
     
     public void deleteParams(int parameterId);
+
     public void insertParams(Parameters parameters);
 }

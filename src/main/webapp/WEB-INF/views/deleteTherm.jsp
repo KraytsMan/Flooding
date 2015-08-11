@@ -35,7 +35,7 @@
     {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/allTherms',
+            url: '/com/admin/allTherms',
             contentType: 'application/json',
             success: function (result)
             {

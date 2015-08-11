@@ -44,7 +44,7 @@
     function loadCriterias() {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/allCriterias',
+            url: '/com/allCriterias',
             contentType: 'application/json; charset=utf-8',
             success: function (result)
             {

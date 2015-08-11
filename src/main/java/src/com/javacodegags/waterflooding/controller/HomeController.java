@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletResponse;
 
 import com.javacodegags.waterflooding.handler.*;
 import com.javacodegags.waterflooding.model.*;
@@ -39,15 +38,12 @@ public class HomeController {
     private static final Logger LOG = Logger.getLogger(HomeController.class.getName());
 
     @RequestMapping(value = "/")
-    public ModelAndView test(HttpServletResponse response) throws IOException {
+    public ModelAndView test() throws IOException {
         List<Caption> listCaption = captionInterface.list();
-        List<Flooding> listFlooding = floodingInterface.getList();
-        LOG.info(listFlooding.toString());
         RowBuilderCriteria builder = new RowBuilderCriteria();
         for (int i = 0; i < listCaption.size(); i++) {
             builder.addList(criteriaInterface.getListById(listCaption.get(i).getId()));
         }
-        List<Result> listResults = resultInterface.getAll();
         ModelAndView mav = new ModelAndView();
         mav.addObject("listCaption", listCaption);
         mav.setViewName("home");
@@ -66,7 +62,7 @@ public class HomeController {
         for (int i = 0; i < listCriteria.size(); i++) {
             Criteria criteria = listCriteria.get(i);
             double func = new FormulaHendler(criteria, parameterInterface.getListById(criteria.getId())).toCalculate();
-            LOG.info("" + func);
+            LOG.info("" + parameterInterface.getListById(criteria.getId()).toString());
             criteriaInterface.updateFunction(criteria.getId(), func);
         }
         List<Flooding> floodings = floodingInterface.getList();

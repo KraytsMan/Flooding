@@ -41,22 +41,22 @@ public class FormulaHendler {
     }
 
     public double toCalculate() {
-        if (criteria.getFormula().equals("��������")) {
+        if (criteria.getFormula().equals("Трикутна")) {
             return new FTriangular(criteria.getArgument(), lps.get(0).getValue(), lps.get(1).getValue(), lps.get(2).getValue(), criteria.getWeighFactor()).toCompute();
         }
-        if (criteria.getFormula().equals("�������������")) {
+        if (criteria.getFormula().equals("Трапецієвидна")) {
             return new FTrapezoidal(criteria.getArgument(), lps.get(0).getValue(), lps.get(1).getValue(), lps.get(2).getValue(), lps.get(3).getValue(), criteria.getWeighFactor()).toCompute();
         }
-        if (criteria.getFormula().equals("Z-������")) {
+        if (criteria.getFormula().equals("Z-подібна")) {
             return new FZViewed(criteria.getArgument(), lps.get(0).getValue(), lps.get(1).getValue(),criteria.getWeighFactor()).toCompute();
         }
-        if (criteria.getFormula().equals("S-������")) {
+        if (criteria.getFormula().equals("S-подібна")) {
             return new FSViewed(criteria.getArgument(), lps.get(0).getValue(), lps.get(1).getValue(),criteria.getWeighFactor()).toCompute();
         }
-        if (criteria.getFormula().equals("˳���� z-������")) {
+        if (criteria.getFormula().equals("Лінійна z-подібна")) {
             return new FZViewdLinear(criteria.getArgument(), lps.get(0).getValue(), lps.get(1).getValue(),criteria.getWeighFactor()).toCompute();
         }
-        if (criteria.getFormula().equals("˳���� s-������")) {
+        if (criteria.getFormula().equals("Лінійна s-подібна")) {
             return new FSViewedLinear(criteria.getArgument(), lps.get(0).getValue(), lps.get(1).getValue(),criteria.getWeighFactor()).toCompute();
         }
         return 0;

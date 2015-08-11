@@ -43,7 +43,7 @@ public class CaptionImplemented implements CaptionInterface {
             public Caption mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Caption caption = new Caption();
                 caption.setId(rs.getInt("id"));
-                caption.setName(rs.getString("caption"));
+                caption.setName(rs.getString("name"));
                 return caption;
             }
         });

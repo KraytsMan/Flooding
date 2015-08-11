@@ -31,7 +31,7 @@ public class ParametersImplemented implements ParameterInterface {
 
     @Override
     public List<Parameters> getListById(int parameterId) {
-        String sql = "SELECT parameters.id, parameters.name, parameters.value "
+        String sql = "SELECT * "
                 + "FROM parameters "
                 + "INNER JOIN criteria "
                 + "ON parameters.foreign_to_criteria=criteria.Id "
@@ -43,6 +43,7 @@ public class ParametersImplemented implements ParameterInterface {
                 parameters.setId(rs.getInt("id"));
                 parameters.setName(rs.getString("name"));
                 parameters.setValue(rs.getFloat("value"));
+                parameters.setForeignId(rs.getInt("foreign_to_criteria"));
                 return parameters;
             }
         });

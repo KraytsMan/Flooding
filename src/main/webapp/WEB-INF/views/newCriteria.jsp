@@ -46,7 +46,7 @@
     {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/newCriteria',
+            url: '/com/admin/newCriteria',
             data: getInsertedCriteria(),
             contentType: 'application/json',
             success: function (result)

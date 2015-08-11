@@ -101,7 +101,7 @@
         var string = JSON.stringify(obj);
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/criteria',
+            url: '/com/admin/criteria',
             contentType: 'application/json; charset=utf-8',
             data: string,
             dataType: 'json',
@@ -162,7 +162,7 @@
     function sendNewCriterias() {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/updateCriteria',
+            url: '/com/admin/updateCriteria',
             contentType: 'application/json',
             data: getChangedValues(),
             success: function(result)

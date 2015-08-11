@@ -45,7 +45,7 @@
     $(function () {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/criterias',
+            url: '/com/admin/criterias',
             contentType: 'application/json',
             success: function (result)
             {
@@ -87,7 +87,7 @@
     {
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/criterias',
+            url: '/com/admin/criterias',
             contentType: 'application/json',
             success: function (result)
             {
