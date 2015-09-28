@@ -18,5 +18,7 @@ public interface ResultInterface {
     public List<Result> getAll();
     
     public void updateResult(int id);
+
+    public void insert();
     
 }

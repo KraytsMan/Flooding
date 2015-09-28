@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -21,10 +23,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 /**
- *
  * @author ������
  */
 public class CriteriaImplemented implements CriteriaInterface {
+
+    @Autowired
+    private ParameterInterface parameterInterface;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -35,12 +39,12 @@ public class CriteriaImplemented implements CriteriaInterface {
     @Override
     public Criteria get(int criteriaId) {
         String sql = "SELECT criteria.id, criteria.criteria_value,criteria.weight_factor, criteria.formula, caption.argument,criteria.foreign_to_therm "
-                + "FROM intermediate "
-                + "INNER JOIN geology.caption "
-                + "ON geology.intermediate.foreign_to_caption=geology.caption.Id "
-                + "INNER JOIN geology.criteria "
-                + "ON geology.intermediate.foreign_to_criteria=geology.criteria.Id "
-                + "where criteria.Id=" + criteriaId + ";";
+            + "FROM intermediate "
+            + "INNER JOIN geology.caption "
+            + "ON geology.intermediate.foreign_to_caption=geology.caption.Id "
+            + "INNER JOIN geology.criteria "
+            + "ON geology.intermediate.foreign_to_criteria=geology.criteria.Id "
+            + "where criteria.Id=" + criteriaId + ";";
         return jdbcTemplate.query(sql, new ResultSetExtractor<Criteria>() {
 
             @Override
@@ -62,12 +66,12 @@ public class CriteriaImplemented implements CriteriaInterface {
     @Override
     public List<Criteria> getListById(int id) {
         String sql = "SELECT criteria.id, criteria_value, formula "
-                + "FROM intermediate "
-                + "INNER JOIN caption "
-                + "ON intermediate.foreign_to_caption=caption.Id "
-                + "INNER JOIN criteria "
-                + "ON intermediate.foreign_to_criteria=criteria.Id "
-                + "Where intermediate.foreign_to_caption=" + id + ";";
+            + "FROM intermediate "
+            + "INNER JOIN caption "
+            + "ON intermediate.foreign_to_caption=caption.Id "
+            + "INNER JOIN criteria "
+            + "ON intermediate.foreign_to_criteria=criteria.Id "
+            + "Where intermediate.foreign_to_caption=" + id + ";";
         List<Criteria> listCriteria = jdbcTemplate.query(sql, new RowMapper<Criteria>() {
             @Override
             public Criteria mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -84,11 +88,11 @@ public class CriteriaImplemented implements CriteriaInterface {
     @Override
     public List<Criteria> getAll() {
         String sql = "SELECT criteria.id, criteria.criteria_value,criteria.weight_factor, criteria.formula, caption.argument "
-                + "                FROM intermediate "
-                + "                INNER JOIN caption "
-                + "                ON intermediate.foreign_to_caption=caption.Id "
-                + "                INNER JOIN criteria "
-                + "                ON intermediate.foreign_to_criteria=criteria.Id";
+            + "                FROM intermediate "
+            + "                INNER JOIN caption "
+            + "                ON intermediate.foreign_to_caption=caption.Id "
+            + "                INNER JOIN criteria "
+            + "                ON intermediate.foreign_to_criteria=criteria.Id";
         List<Criteria> listCriteria = jdbcTemplate.query(sql, new RowMapper<Criteria>() {
             @Override
             public Criteria mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -107,32 +111,33 @@ public class CriteriaImplemented implements CriteriaInterface {
     @Override
     public void updateFunction(int id, double value) {
         String sql = "UPDATE criteria "
-                + "SET criteria_value=" + value + " "
-                + "WHERE id=" + id + "; ";
+            + "SET criteria_value=" + value + " "
+            + "WHERE id=" + id + "; ";
         this.jdbcTemplate.update(sql);
     }
 
     @Override
     public void updateCriteria(Criteria c) {
         String sql = "UPDATE criteria SET formula='" + c.getFormula() + "',"
-                + " weight_factor='" + c.getWeighFactor() + "', foreign_to_therm='" + c.getTherms() + "'"
-                + " WHERE Id='" + c.getId() + "';";
+            + " weight_factor='" + c.getWeighFactor() + "', foreign_to_therm='" + c.getTherms() + "'"
+            + " WHERE Id='" + c.getId() + "';";
         this.jdbcTemplate.update(sql);
     }
 
     @Override
     public int insertCriteria(int id) {
-        final String sql = "INSERT INTO criteria (foreign_to_therm) VALUES ("+id+");";
+        final String sql = "INSERT INTO criteria (foreign_to_therm,formula,weight_factor,criteria_value) VALUES (" + id + ",'Трикутна','0.1','0.1');";
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
 
             @Override
             public PreparedStatement createPreparedStatement(Connection cnctn) throws SQLException {
                 PreparedStatement ps
-                        = cnctn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    = cnctn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 return ps;
             }
         }, holder);
+        this.setDefaultParams(holder.getKey().intValue());
         return holder.getKey().intValue();
     }
 
@@ -146,6 +151,41 @@ public class CriteriaImplemented implements CriteriaInterface {
     public void insertIntermediateToFlooding(int criteria, int flooding) {
         String sql = "INSERT INTO intermediatetoflooding (foreign_to_criteria, foreign_to_flooding) VALUES (" + criteria + "," + flooding + ");";
         this.jdbcTemplate.update(sql);
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql = "DELETE FROM criteria WHERE id='" + id + "';";
+        jdbcTemplate.update(sql);
+    }
+
+    @Override
+    public List<Integer> getCriteriaByFlooding(int id) {
+        String sql = "select intermediatetoflooding.foreign_to_criteria" +
+            " from intermediatetoflooding" +
+            " where intermediatetoflooding.foreign_to_flooding=" + id + ";";
+        return jdbcTemplate.query(sql, new RowMapper<Integer>() {
+            @Override
+            public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                return new Integer(resultSet.getInt("foreign_to_criteria"));
+            }
+        });
+    }
+
+    private void setDefaultParams(int id) {
+        Parameters parameters = new Parameters();
+        parameters.setForeignId(id);
+        parameters.setName("Параметр А");
+        parameters.setValue(10);
+        parameterInterface.insertParams(parameters);
+        parameters.setForeignId(id);
+        parameters.setName("Параметр B");
+        parameters.setValue(20);
+        parameterInterface.insertParams(parameters);
+        parameters.setForeignId(id);
+        parameters.setName("Параметр C");
+        parameters.setValue(30);
+        parameterInterface.insertParams(parameters);
     }
 
 }

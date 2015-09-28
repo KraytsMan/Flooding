@@ -10,7 +10,7 @@ package com.javacodegags.waterflooding.model;
  * @author ������
  */
 public class Result {
-    
+
     private int id;
     private double minimum;
     private double average;

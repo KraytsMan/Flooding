@@ -7,8 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <div id="addCriteria" class="modal fade" data-focus-on="input:first">
-    <div class="modal-dialog" >
-        <div class="modal-content" style="max-width: 450px">
+    <div class="modal-dialog modal-vertical-centered" style="vertical-align: middle">
+        <div class="modal-content " style="max-width: 450px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearField('criteriaInp');">×</button>
                 <h3>Додати критерій</h3>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-primary" id="thermAddB" onclick="sendNewTherm();
+                <button type="button" data-dismiss="modal" class="btn btn-primary" id="thermAddB" onclick="sendNewCriteria();
                         clearField('criteriaInp');">Зберегти зміни</button>
                 <button type="button" data-dismiss="modal" class="btn" onclick="clearField('criteriaInp');">Закрити</button>
             </div>
@@ -42,11 +42,11 @@
         obj["name"] = elem.value;
         return JSON.stringify(obj);
     }
-    function sendNewTherm()
+    function sendNewCriteria()
     {
         $.ajax({
             type: 'POST',
-            url: '/com/admin/newCriteria',
+            url: '/Flooding/admin/newCriteria',
             data: getInsertedCriteria(),
             contentType: 'application/json',
             success: function (result)

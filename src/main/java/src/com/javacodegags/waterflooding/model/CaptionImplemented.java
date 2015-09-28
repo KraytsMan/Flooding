@@ -59,20 +59,34 @@ public class CaptionImplemented implements CaptionInterface {
     }
 
     @Override
+    public void updateName(int id, String name) {
+        String sql = "UPDATE caption "
+            + "SET name= '" + name + "' "
+            + "WHERE id=" + id + "; ";
+        this.jdbcTemplate.update(sql);
+    }
+
+    @Override
     public int insertCaption(final String name) {
-        final String sql = "INSERT INTO caption (caption) VALUES (?);";
+        final String sql = "INSERT INTO caption (name,argument) VALUES (?,1);";
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
 
             @Override
-            public PreparedStatement createPreparedStatement(Connection cnctn) throws SQLException {
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps
-                        = cnctn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+                        = connection.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, name);
                 return ps;
             }
         }, holder);
         return holder.getKey().intValue();
+    }
+
+    @Override
+    public void deleteCaption(int id) {
+        String sql = "DELETE FROM caption WHERE id='" + id + "';";
+        jdbcTemplate.update(sql);
     }
 
 }

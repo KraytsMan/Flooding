@@ -9,11 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
- *
  * @author ������
  */
 public class ResultImplemented implements ResultInterface {
@@ -48,21 +48,27 @@ public class ResultImplemented implements ResultInterface {
     @Override
     public void updateResult(int id) {
         String sql = "Update results "
-                + "Set results.minimum=(SELECT min(criteria.criteria_value) "
-                + "FROM intermediatetoflooding "
-                + "INNER JOIN criteria "
-                + "ON intermediatetoflooding.foreign_to_criteria=criteria.Id "
-                + "INNER JOIN flooding "
-                + "ON intermediatetoflooding.foreign_to_flooding=flooding.id "
-                + "Where flooding.id=" + id + "), "
-                + "results.average=(SELECT avg(criteria.criteria_value) "
-                + "FROM intermediatetoflooding "
-                + "INNER JOIN criteria "
-                + "ON intermediatetoflooding.foreign_to_criteria=criteria.Id "
-                + "INNER JOIN flooding "
-                + "ON intermediatetoflooding.foreign_to_flooding=flooding.id "
-                + "Where flooding.id=" + id + ")"
-                + "Where results.id=" + id + ";";
+            + "Set results.minimum=(SELECT min(criteria.criteria_value) "
+            + "FROM intermediatetoflooding "
+            + "INNER JOIN criteria "
+            + "ON intermediatetoflooding.foreign_to_criteria=criteria.Id "
+            + "INNER JOIN flooding "
+            + "ON intermediatetoflooding.foreign_to_flooding=flooding.id "
+            + "Where flooding.id=" + id + "), "
+            + "results.average=(SELECT avg(criteria.criteria_value) "
+            + "FROM intermediatetoflooding "
+            + "INNER JOIN criteria "
+            + "ON intermediatetoflooding.foreign_to_criteria=criteria.Id "
+            + "INNER JOIN flooding "
+            + "ON intermediatetoflooding.foreign_to_flooding=flooding.id "
+            + "Where flooding.id=" + id + ")"
+            + "Where results.id=" + id + ";";
+        this.jdbcTemplate.update(sql);
+    }
+
+    @Override
+    public void insert() {
+        String sql = "INSERT INTO results (minimum, average) VALUES (0.1, 0.1);";
         this.jdbcTemplate.update(sql);
     }
 

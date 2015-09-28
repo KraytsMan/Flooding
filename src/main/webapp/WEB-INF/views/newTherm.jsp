@@ -32,18 +32,22 @@
     {
         $('#addTherm').modal();
     }
+
     function getInsertedTherm()
     {
+
         var elem = document.getElementById("thermInp");
         var obj = {};
         obj["name"] = elem.value;
         return JSON.stringify(obj);
     }
+
     function sendNewTherm()
     {
+
         $.ajax({
             type: 'POST',
-            url: '/com/admin/addTherm',
+            url: '/Flooding/admin/addTherm',
             data: getInsertedTherm(),
             contentType: 'application/json',
             success: function (result)
@@ -57,6 +61,7 @@
             }
         });
     }
+
     function clearField(fieldName)
     {
         var elem = document.getElementById(fieldName);

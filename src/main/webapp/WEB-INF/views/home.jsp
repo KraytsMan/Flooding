@@ -22,14 +22,12 @@
                             <a class="navbar-brand" href="javascript:window.location.reload();">Waterflooding</a>                           
                         </div>
                         <div class="collapse navbar-collapse">
-                            <form action="/com/admin" class="navbar-form navbar-right" method="POST">
+                            <form action="/Flooding/admin" class="navbar-form navbar-right" method="POST">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Адміністратор БЗ">
                                     <input type="password" class="form-control" placeholder="Пароль">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Вхід
-                                </button>
-                                <button type="button" class="btn btn-primary"><i class="icon-large icon-search"></i>Довідка
                                 </button>
                             </form>                                                        
                         </div>

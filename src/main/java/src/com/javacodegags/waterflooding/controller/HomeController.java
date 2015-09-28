@@ -40,10 +40,6 @@ public class HomeController {
     @RequestMapping(value = "/")
     public ModelAndView test() throws IOException {
         List<Caption> listCaption = captionInterface.list();
-        RowBuilderCriteria builder = new RowBuilderCriteria();
-        for (int i = 0; i < listCaption.size(); i++) {
-            builder.addList(criteriaInterface.getListById(listCaption.get(i).getId()));
-        }
         ModelAndView mav = new ModelAndView();
         mav.addObject("listCaption", listCaption);
         mav.setViewName("home");

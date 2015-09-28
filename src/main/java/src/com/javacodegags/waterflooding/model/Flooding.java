@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * @author ������
  */
 public class Flooding {
-    
+
     private int id;
     private String name;
     private String image;

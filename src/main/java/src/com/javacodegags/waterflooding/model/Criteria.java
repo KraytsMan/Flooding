@@ -10,7 +10,7 @@ package com.javacodegags.waterflooding.model;
  * @author ������
  */
 public class Criteria {
-    
+
     private int id;
     private double value;
     private double argument;

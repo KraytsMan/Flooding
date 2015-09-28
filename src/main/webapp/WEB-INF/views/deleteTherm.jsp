@@ -35,7 +35,7 @@
     {
         $.ajax({
             type: 'POST',
-            url: '/com/admin/allTherms',
+            url: '/Flooding/admin/allTherms',
             contentType: 'application/json',
             success: function (result)
             {
@@ -66,14 +66,16 @@
 
         $.ajax({
             type: 'POST',
-            url: '/Waterflooding/admin/deleteTherm',
+            url: '/Flooding/admin/deleteTherm',
             data: getChosenOption(),
             contentType: 'application/json',
             success: function (result)
             {
+                reload()
             },
             error: function ()
             {
+                reload()
                 alert("try again later");
             }
         });

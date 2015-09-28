@@ -86,7 +86,7 @@
             else {
                 $.ajax({
                     type: 'POST',
-                    url: '/com/computewaterflooding',
+                    url: '/Flooding/computewaterflooding',
                     contentType: 'application/json',
                     data: getFormValues(),
                     success: function (result)

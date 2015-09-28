@@ -28,4 +28,9 @@ public interface CriteriaInterface {
     public void insertIntermediateToCaption(int criteria, int caption);
     
     public void insertIntermediateToFlooding(int criteria, int flooding);
+
+    public void delete(int id);
+
+    public List<Integer> getCriteriaByFlooding(int id);
+
 }

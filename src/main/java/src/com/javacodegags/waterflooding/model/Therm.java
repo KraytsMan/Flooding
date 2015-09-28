@@ -10,7 +10,7 @@ package com.javacodegags.waterflooding.model;
  * @author ������
  */
 public class Therm {
-    
+
     private int id;
     private String name;
 

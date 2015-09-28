@@ -17,7 +17,11 @@ public interface CaptionInterface {
     public List<Caption> list();
     
     public void updateArgument(int id, double argument);
+
+    public void updateName(int id, String name);
     
     public int insertCaption(String name);
+
+    public void deleteCaption(int id);
     
 }

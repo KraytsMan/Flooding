@@ -10,6 +10,7 @@ package com.javacodegags.waterflooding.model;
  * @author ������
  */
 public class Caption {
+
     private int id;
     private String name;
 

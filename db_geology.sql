@@ -56,7 +56,7 @@ CREATE TABLE `criteria` (
   PRIMARY KEY (`id`),
   KEY `fk_criteria_1_idx` (`foreign_to_therm`),
   CONSTRAINT `fk_criteria_1` FOREIGN KEY (`foreign_to_therm`) REFERENCES `therm_set` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ CREATE TABLE `intermediate` (
   KEY `fk_intermediate_2_idx` (`foreign_to_criteria`),
   CONSTRAINT `fk_intermediate_1` FOREIGN KEY (`foreign_to_caption`) REFERENCES `caption` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_intermediate_2` FOREIGN KEY (`foreign_to_criteria`) REFERENCES `criteria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,8 +139,8 @@ CREATE TABLE `intermediatetoflooding` (
   KEY `fk_intermediatetoflooding_1_idx` (`foreign_to_criteria`),
   KEY `fk_intermediatetoflooding_2_idx` (`foreign_to_flooding`),
   CONSTRAINT `fk_intermediatetoflooding_1` FOREIGN KEY (`foreign_to_criteria`) REFERENCES `criteria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_intermediatetoflooding_2` FOREIGN KEY (`foreign_to_flooding`) REFERENCES `flooding` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_intermediatetoflooding_2` FOREIGN KEY (`foreign_to_flooding`) REFERENCES `flooding` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +194,7 @@ CREATE TABLE `results` (
   `average` double(3,3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_results_1` FOREIGN KEY (`id`) REFERENCES `flooding` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +218,7 @@ CREATE TABLE `therm_set` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

@@ -31,7 +31,7 @@
     function loadTherms() {
         $.ajax({
             type: 'POST',
-            url: '/com/allTherms',
+            url: '/Flooding/allTherms',
             contentType: 'application/json; charset=utf-8',
             success: function (result)
             {

@@ -73,7 +73,7 @@
             }
     function setNullParametersForThree(one = 0, two = 1, three = 2)
     {
-    $('#params2 label').remove();
+            $('#params2 label').remove();
             $('#params2 input').remove();
             $('#params2').append('<label for="Параметр А" class="col-sm-7 control-label">Параметр А</label>');
             $('#params2').append('<input type="text" class="form-control" id="Параметр А" value="' + one + '">');
@@ -101,35 +101,35 @@
         var string = JSON.stringify(obj);
         $.ajax({
             type: 'POST',
-            url: '/com/admin/criteria',
+            url: '/Flooding/admin/criteria',
             contentType: 'application/json; charset=utf-8',
             data: string,
             dataType: 'json',
             success: function (result)
             {
-                
+
                 document.getElementById(result.formula).selected = "true";
-                
-                if (result.parameters.length === 2) {
-                    setNullParametersForThree(result.parameters[0].value, result.parameters[1].value);
+
+                if (result.parameters.length == 2) {
+                    setNullParametersForTwo(result.parameters[0].value, result.parameters[1].value);
                 }
-                if (result.parameters.length === 3) {
+                if (result.parameters.length == 3) {
                     setNullParametersForThree(result.parameters[0].value, result.parameters[1].value, result.parameters[2].value);
                 }
-                if (result.parameters.length === 4) {
-                    setNullParametersForThree(result.parameters[0].value, result.parameters[1].value, result.parameters[2].value, result.parameters[3].value);
+                if (result.parameters.length == 4) {
+                    setNullParametersForFour(result.parameters[0].value, result.parameters[1].value, result.parameters[2].value, result.parameters[3].value);
                 }
-                
+
                 for (var i = 0; i < result.thermlist.length; i++)
                 {
                     $('#therm').append('<option id="' + result.thermlist[i].id + '">' + result.thermlist[i].name + '</option>');
-                }               
+                }
                 document.getElementById(result.therms).selected = "true";
                 var elem = document.getElementById("weight_factor");
                 elem.value = result.weighFactor;
                 elem = document.getElementById("id");
                 elem.value = result.id;
-                document.getElementById("demo").addEventListener("click", sendNewCriterias);            
+                document.getElementById("demo").addEventListener("click", sendNewCriterias);
                 $('#Mymodal').modal();
             },
             error: function ()
@@ -162,7 +162,7 @@
     function sendNewCriterias() {
         $.ajax({
             type: 'POST',
-            url: '/com/admin/updateCriteria',
+            url: '/Flooding/admin/updateCriteria',
             contentType: 'application/json',
             data: getChangedValues(),
             success: function(result)

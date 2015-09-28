@@ -46,7 +46,7 @@
         var string = JSON.stringify(obj);
         $.ajax({
             type: 'POST',
-            url: '/com/criteria',
+            url: '/Flooding/criteria',
             contentType: 'application/json; charset=utf-8',
             data: string,
             dataType: 'json',

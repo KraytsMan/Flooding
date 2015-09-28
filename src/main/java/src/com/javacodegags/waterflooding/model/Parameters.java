@@ -10,7 +10,7 @@ package com.javacodegags.waterflooding.model;
  * @author ������
  */
 public class Parameters {
-    
+
     private int id;
     private String name;
     private double value;

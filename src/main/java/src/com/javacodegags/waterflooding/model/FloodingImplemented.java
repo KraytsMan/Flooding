@@ -5,15 +5,13 @@
  */
 package com.javacodegags.waterflooding.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowCountCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 /**
  *
@@ -69,6 +67,37 @@ public class FloodingImplemented implements FloodingInterface {
             }
         });
         return flooding;
+    }
+
+    @Override
+    public int insert(final String name) {
+        final String sql = "INSERT INTO flooding (name) VALUES (?);";
+        KeyHolder holder = new GeneratedKeyHolder();
+        jdbcTemplate.update(new PreparedStatementCreator() {
+
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps
+                    = connection.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, name);
+                return ps;
+            }
+        }, holder);
+        return holder.getKey().intValue();
+    }
+
+    @Override
+    public void update(int id, String name) {
+        String sql = "UPDATE flooding "
+            + "SET name= '" + name + "' "
+            + "WHERE id=" + id + "; ";
+        this.jdbcTemplate.update(sql);
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql = "DELETE FROM flooding WHERE id='" + id + "';";
+        jdbcTemplate.update(sql);
     }
 
 }

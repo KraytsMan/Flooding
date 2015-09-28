@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.javacodegags.waterflooding.handler.CustomJSONParser;
 import com.javacodegags.waterflooding.handler.RowBuilderCriteria;
 import com.javacodegags.waterflooding.model.*;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsFileUploadSupport;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -78,8 +80,8 @@ public class AdminController {
         Criteria criteria = criteriaInterface.get(id);
         jsono = new CustomJSONParser().objectToJSON(criteria);
         List<Parameters> list = parameterInterface.getListById(id);
-        List<Therm> therms = thermInterface.getList();
         jsono.put("parameters", new CustomJSONParser().listParamsToJSONArray(list));
+        List<Therm> therms = thermInterface.getList();
         jsono.put("thermlist", new CustomJSONParser().thermsToJsonArray(therms));
         LOG.info(jsono.toString());
         return jsono.toString();
@@ -144,5 +146,84 @@ public class AdminController {
         }
         return jsono.toString();
     }
+
+    @RequestMapping(value = "/admin/allCriteria", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public @ResponseBody
+    String getAllCriteria() throws JSONException {
+        JSONArray jsonArray =new CustomJSONParser().captionsToJsonArray(captionInterface.list());
+        return jsonArray.toString();
+    }
+
+    @RequestMapping(value = "/admin/deleteCaption", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public @ResponseBody
+    String deleteCaption(@RequestBody String postBody) throws JSONException {
+        JSONObject jsono = new JSONObject(postBody);
+        LOG.info(jsono.toString());
+        captionInterface.deleteCaption(jsono.getInt("id"));
+        return jsono.toString();
+    }
+
+    @RequestMapping(value = "/admin/updateCaption", method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes ="application/json;charset=UTF-8")
+    public @ResponseBody
+    String updateCaption(@RequestBody String postBody) throws JSONException {
+        JSONObject jsono = new JSONObject(postBody);
+        LOG.info(jsono.toString());
+        captionInterface.updateName(jsono.getInt("id"), jsono.getString("name"));
+        return jsono.toString();
+    }
+
+    @RequestMapping(value = "/admin/newFlooding", method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes ="application/json;charset=UTF-8")
+    public @ResponseBody
+    String insertFlooding(@RequestBody String postBody) throws JSONException {
+        JSONObject jsono = new JSONObject(postBody);
+        LOG.info(jsono.toString());
+        int floodingId = floodingInterface.insert(jsono.getString("name"));
+        resultInterface.insert();
+        List<Caption> captions = captionInterface.list();
+        List<Therm> lt= thermInterface.getList();
+        int criteriaId;
+        for (Caption caption : captions)
+        {
+            criteriaId = criteriaInterface.insertCriteria(lt.get(0).getId());
+            LOG.info(""+criteriaId);
+            criteriaInterface.insertIntermediateToCaption(criteriaId, caption.getId());
+            criteriaInterface.insertIntermediateToFlooding(criteriaId, floodingId);
+        }
+        return jsono.toString();
+    }
+
+    @RequestMapping(value = "/admin/deleteFlooding", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public @ResponseBody
+    String deleteFlooding(@RequestBody String postBody) throws JSONException {
+        JSONObject jsono = new JSONObject(postBody);
+        LOG.info(jsono.toString());
+        List<Integer> criteriasId = criteriaInterface.getCriteriaByFlooding(jsono.getInt("id"));
+        floodingInterface.delete(jsono.getInt("id"));
+        for (int id : criteriasId)
+        {
+            criteriaInterface.delete(id);
+        }
+        return jsono.toString();
+    }
+
+    @RequestMapping(value = "/admin/updateFlooding", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public @ResponseBody
+    String updateFlooding(@RequestBody String postBody) throws JSONException {
+        JSONObject jsono = new JSONObject(postBody);
+        LOG.info(jsono.toString());
+        floodingInterface.update(jsono.getInt("id"), jsono.getString("name"));
+        return jsono.toString();
+    }
+
+    @RequestMapping(value = "/admin/allFlooding", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public @ResponseBody
+    String getFloodings() throws JSONException {
+        JSONObject jsono = new JSONObject();
+        LOG.info(jsono.toString());
+        JSONArray jsonArray =new CustomJSONParser().floodingsToJsonArray(floodingInterface.getList());
+        return jsonArray.toString();
+    }
+
+
 
 }

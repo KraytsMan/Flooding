@@ -16,4 +16,10 @@ public interface FloodingInterface {
     public Flooding get(int criteriaId);
      
     public List<Flooding> getList();
+
+    public int insert(String name);
+
+    public void update(int id, String name);
+
+    public void delete(int id);
 }
